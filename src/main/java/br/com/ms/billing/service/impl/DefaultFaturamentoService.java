@@ -1,6 +1,8 @@
 package br.com.ms.billing.service.impl;
 
+import br.com.ms.billing.controller.dto.FaturaPagamentoDTO;
 import br.com.ms.billing.controller.form.FaturaForm;
+import br.com.ms.billing.exception.ObjectNotFoundException;
 import br.com.ms.billing.model.Fatura;
 import br.com.ms.billing.populator.Populator;
 import br.com.ms.billing.repository.FaturaRepository;
@@ -9,6 +11,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class DefaultFaturamentoService implements FaturamentoService {
@@ -31,6 +37,17 @@ public class DefaultFaturamentoService implements FaturamentoService {
         faturaRepository.save(fatura);
 
         return String.valueOf(fatura.getId());
+    }
+
+    @Override
+    public List<FaturaPagamentoDTO> buscarFaturasSalvasParaProcessarPagamento() {
+        List<Fatura> faturas = faturaRepository.findAll();
+        if (faturas.isEmpty()){
+            throw new ObjectNotFoundException("Não existem faturas disponíveis para processar pagamento");
+        }
+        List<FaturaPagamentoDTO> faturasDTO = faturas.stream().map(fatura -> FaturaPagamentoDTO.valueOf(fatura)).collect(Collectors.toList());
+        faturasDTO.forEach(f -> LOGGER.info(f.getCodigo()));
+        return faturasDTO;
     }
 
     private Fatura converterToModel(FaturaForm form) {

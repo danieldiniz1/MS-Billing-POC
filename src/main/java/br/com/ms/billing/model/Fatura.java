@@ -1,6 +1,7 @@
 package br.com.ms.billing.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
@@ -13,13 +14,14 @@ public class Fatura {
     @Id
     private String id;
     private String nome;
+    @DBRef
     private Endereco endereco;
     private String codigo;
     private LocalDate dataFatura;
     private LocalDate vencimentoFatura;
     private BigDecimal valorFatura;
     private BigDecimal descontoFatura;
-    private BigDecimal valorTotal;
+    private BigDecimal valorFinal;
     private String serviçosFatura;
 
     public Fatura() {
@@ -89,12 +91,12 @@ public class Fatura {
         this.descontoFatura = descontoFatura;
     }
 
-    public BigDecimal getValorTotal() {
-        return valorTotal;
+    public BigDecimal getValorFinal() {
+        return valorFinal;
     }
 
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
+    public void setValorFinal(BigDecimal valorFinal) {
+        this.valorFinal = valorFinal;
     }
 
     public String getServiçosFatura() {

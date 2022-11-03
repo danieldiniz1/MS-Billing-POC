@@ -1,14 +1,28 @@
 package br.com.ms.billing.controller.form;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 public class FaturaForm {
 
+    @NotBlank(message = "Nome não pode ser em branco")
     private String nome;
+    @NotNull
     private EnderecoForm endereco;
+    @NotBlank(message = "Código não pode ser em branco")
     private String codigo;
+    @NotBlank(message = "Data não pode ser em branco")
+    @Pattern(regexp = "(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)")
     private String dataFatura;
+    @NotBlank(message = "Data não pode ser em branco")
+    @Pattern(regexp = "(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)")
     private String vencimentoFatura;
+    @NotBlank(message = "Valor não pode ser em branco")
+
     private String valorFatura;
     private String descontoFatura;
+    @NotBlank(message = "Data não pode ser em branco")
     private String serviçosFatura;
 
     public FaturaForm() {

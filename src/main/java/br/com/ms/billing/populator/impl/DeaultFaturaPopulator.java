@@ -1,7 +1,6 @@
 package br.com.ms.billing.populator.impl;
 
 import br.com.ms.billing.controller.form.FaturaForm;
-import br.com.ms.billing.model.Endereco;
 import br.com.ms.billing.model.Fatura;
 import br.com.ms.billing.populator.Populator;
 import org.springframework.stereotype.Component;
@@ -27,7 +26,7 @@ public class DeaultFaturaPopulator implements Populator<FaturaForm, Fatura> {
         target.setValorFatura(BigDecimal.valueOf(Double.valueOf(source.getValorFatura())));
         target.setDescontoFatura(source.getDescontoFatura().isBlank() ? BigDecimal.ZERO : BigDecimal.valueOf(Double.valueOf(source.getDescontoFatura())));
         target.setServiçosFatura(source.getServiçosFatura());
-        target.setValorTotal(
+        target.setValorFinal(
                 BigDecimal.valueOf(Double.valueOf(source.getValorFatura()))
                         .subtract(source.getDescontoFatura().isBlank() ? BigDecimal.ZERO : BigDecimal.valueOf(Double.valueOf(source.getDescontoFatura()))));
 
