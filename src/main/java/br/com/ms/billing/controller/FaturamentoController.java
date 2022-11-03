@@ -1,5 +1,6 @@
 package br.com.ms.billing.controller;
 
+import br.com.ms.billing.controller.dto.FaturaImpressaoDTO;
 import br.com.ms.billing.controller.dto.FaturaPagamentoDTO;
 import br.com.ms.billing.controller.form.FaturaForm;
 import br.com.ms.billing.service.FaturamentoService;
@@ -33,8 +34,13 @@ public class FaturamentoController {
         return ResponseEntity.created(uri).build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<FaturaPagamentoDTO>> buscarTodasFaturasSalvas(){
+    @GetMapping("/pagamento") // Endpoint para busca das faturas para iniciar procesos de envio aos banco para pagamento.
+    public ResponseEntity<List<FaturaPagamentoDTO>> buscarTodasFaturasSalvasParaPagamento(){
         return ResponseEntity.status(HttpStatus.OK).body(faturamentoService.buscarFaturasSalvasParaProcessarPagamento());
+    }
+
+    @GetMapping("/impressao") // Endpoint para busca das faturas para iniciar procesos de envio ao serviço de impressão.
+    public ResponseEntity<List<FaturaImpressaoDTO>> buscarTodasFaturasSalvasParaImpressao() {
+        return ResponseEntity.status(HttpStatus.OK).body(faturamentoService.buscarFaturasSalvasParaProcessarImpressao());
     }
 }
