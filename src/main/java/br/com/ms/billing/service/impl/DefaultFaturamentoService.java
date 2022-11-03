@@ -4,8 +4,10 @@ import br.com.ms.billing.controller.dto.FaturaImpressaoDTO;
 import br.com.ms.billing.controller.dto.FaturaPagamentoDTO;
 import br.com.ms.billing.controller.form.FaturaForm;
 import br.com.ms.billing.exception.ObjectNotFoundException;
+import br.com.ms.billing.model.Endereco;
 import br.com.ms.billing.model.Fatura;
 import br.com.ms.billing.populator.Populator;
+import br.com.ms.billing.repository.EnderecoRepository;
 import br.com.ms.billing.repository.FaturaRepository;
 import br.com.ms.billing.service.FaturamentoService;
 import org.apache.logging.log4j.LogManager;
@@ -24,11 +26,14 @@ public class DefaultFaturamentoService implements FaturamentoService {
     @Autowired
     private FaturaRepository faturaRepository;
     @Autowired
+    private EnderecoRepository enderecoRepository;
+    @Autowired
     private Populator<FaturaForm,Fatura> faturaPopulator;
 
     @Override
     public String processarFatura(FaturaForm form) {
         // tratar infos e popular model
+        tratamentoEndereco(form);
         Fatura fatura = converterToModel(form);
 
         //salvar infos no mongoDB
@@ -58,6 +63,11 @@ public class DefaultFaturamentoService implements FaturamentoService {
             throw new ObjectNotFoundException("Não existem faturas disponíveis para processar pagamento");
         }
         return faturas;
+    }
+
+    private void tratamentoEndereco(FaturaForm form) {
+        Endereco endereco = enderecoRepository.save(Endereco.create(form.getEndereco()));
+        form.getEndereco().setId(endereco.getId());
     }
 
     private Fatura converterToModel(FaturaForm form) {

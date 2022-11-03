@@ -2,6 +2,7 @@ package br.com.ms.billing.controller.form;
 
 public class EnderecoForm {
 
+    private String id;
     private String logradouro;
     private String complemento;
     private String numero;
@@ -59,5 +60,13 @@ public class EnderecoForm {
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

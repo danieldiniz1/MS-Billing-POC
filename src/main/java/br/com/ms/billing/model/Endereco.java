@@ -1,5 +1,6 @@
 package br.com.ms.billing.model;
 
+import br.com.ms.billing.controller.form.EnderecoForm;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,6 +18,15 @@ public class Endereco {
     private String cep;
 
     public Endereco() {
+    }
+
+    public Endereco(String logradouro, String complemento, String numero, String cidade, String estado, String cep) {
+        this.logradouro = logradouro;
+        this.complemento = complemento;
+        this.numero = numero;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.cep = cep;
     }
 
     public String getId() {
@@ -86,5 +96,10 @@ public class Endereco {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public static Endereco create(EnderecoForm form) {
+        return new Endereco(form.getLogradouro(), form.getComplemento(), form.getNumero(), form.getCidade(), form.getEstado(), form.getCep());
+
     }
 }

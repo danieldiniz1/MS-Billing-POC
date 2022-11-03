@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EnderecoRepository extends MongoRepository<Endereco,String> {
+
+    Endereco findByCep(String cep);
 }
